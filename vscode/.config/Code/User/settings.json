@@ -1,0 +1,8 @@
+{
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "editor.fontSize": 20,
+    "terminal.integrated.inheritEnv": false,
+    "chat.disableAIFeatures": true
+}

@@ -1,0 +1,78 @@
+#!/bin/sh
+
+# in .dotfiles directory
+stow -R zsh shell 
+
+package-install lightdm ligthdm-gtk-greeter
+package-install btop 
+package-install alacritty
+package-install xterm
+
+package-install zsh
+git clone https://github.com/zdharma-continuum/fast-syntax-highlighting ~/.local/share/zsh/plugins/fast-syntax-highlighting
+git clone https://github.com/sindresorhus/pure.git ~/.local/share/zsh/plugins/pure
+
+package-install zoxide 
+
+# maybe install bat
+
+package-install tmux
+package-install neovim
+package-install i3
+package-install pulsemixer
+package-install brightnessctl
+package-install zathura
+package-install	nsxiv 
+package-install calcurse
+package-install moreutils
+package-install maim
+package-install stow 
+
+package-install syncthing
+
+
+
+flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+flatpak install --user flathub org.keepassxc.KeePassXC
+
+# in .dotfiles directory
+stow -R *
+
+
+
+
+
+
+
+
+# pop-os specific. turn off autostart of some progs
+sudo dpkg-divert --divert "/etc/xdg/autostart/io.elementary.appcenter-daemon.desktop.bak" --rename "/etc/xdg/autostart/io.elementary.appcenter-daemon.desktop"
+sudo dpkg-divert --divert "/etc/xdg/autostart/org.gnome.Evolution-alarm-notify.desktop.bak" --rename "/etc/xdg/autostart/org.gnome.Evolution-alarm-notify.desktop"
+
+
+# choose nvim here
+sudo update-alternatives --config editor
+
+# this may be not necessary:
+/etc/udev/rules.d/90-brightnessctl.rules
+ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chgrp video /sys/class/backlight/%k/brightness"
+ACTION=="add", SUBSYSTEM=="backlight", RUN+="/bin/chmod g+w /sys/class/backlight/%k/brightness"
+ACTION=="add", SUBSYSTEM=="leds", RUN+="/bin/chgrp input /sys/class/leds/%k/brightness"
+ACTION=="add", SUBSYSTEM=="leds", RUN+="/bin/chmod g+w /sys/class/leds/%k/brightness"
+
+# the next two commands might be necessary for brightnessctl to work 
+sudo usermod -a -G video ${USER} 
+sudo usermod -a -G input ${USER} 
+
+
+# Enable tap to click
+[ ! -f /etc/X11/xorg.conf.d/40-libinput.conf ] && printf 'Section "InputClass"
+        Identifier "libinput touchpad catchall"
+        MatchIsTouchpad "on"
+        MatchDevicePath "/dev/input/event*"
+        Driver "libinput"
+	# Enable left mouse button by tapping
+	Option "Tapping" "on"
+EndSection' >/etc/X11/xorg.conf.d/40-libinput.conf
+

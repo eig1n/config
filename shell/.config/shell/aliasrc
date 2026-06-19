@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Use neovim for vim if present.
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+se() {
+	choice="$(find ~/.local/bin -mindepth 1 -printf '%P\n' | fzf)"
+	[ -f "$HOME/.local/bin/$choice" ] && $EDITOR "$HOME/.local/bin/$choice"
+	;}
+	
+alias \
+	v="nvim" \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -vI" \
+	bc="bc -ql" \
+#	rsync="rsync -vrPlu" \
+	mkd="mkdir -pv" \
+#	yt="yt-dlp --embed-metadata -i" \
+#	yta="yt -x -f bestaudio/best" \
+#	ytt="yt --skip-download --write-thumbnail" \
+#	ffmpeg="ffmpeg -hide_banner"
+
+
+# Colorize commands when possible.
+alias \
+	ls="ls -hN --color=auto --group-directories-first" \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+	ccat="highlight --out-format=ansi" \
+	ip="ip -color=auto"	
+
+#alias \
+#	lf="lfub" \
+#	magit="nvim -c MagitOnly" \
